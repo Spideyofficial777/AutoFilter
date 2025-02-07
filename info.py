@@ -70,6 +70,11 @@ SHORTLINK_API = environ.get('SHORTLINK_API', '09c3f9bc3a8b121b1e6b82a954e59da523
 TUTORIAL = environ.get('TUTORIAL', 'https://t.me/How_to_Download_7x/32') # Tutorial video link for opening shortlink website 
 IS_TUTORIAL = bool(environ.get('IS_TUTORIAL', False))
 
+#stream link shortner
+STREAM_SITE = (environ.get('STREAM_SITE', 'shortxlinks.com'))
+STREAM_API = (environ.get('STREAM_API', '09c3f9bc3a8b121b1e6b82a954e59da523dd188e'))
+STREAMHTO = (environ.get('STREAMHTO', 'https://t.me/SPIDEYOFFICIAL_777/10'))
+
 #Channel & Group link 
 GRP_LNK = environ.get('GRP_LNK', 'https://t.me/movie7xchat')
 CHNL_LNK = environ.get('CHNL_LNK', 'https://t.me/nova_flix')
