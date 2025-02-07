@@ -1110,9 +1110,9 @@ async def cb_handler(client: Client, query: CallbackQuery):
             await query.answer(url=f"https://telegram.me/{temp.U_NAME}?start={ident}_{file_id}")
             
     elif query.data.startswith("sendfiles"):
-    clicked = query.from_user.id
-    ident, key = query.data.split("#")
-    settings = await get_settings(query.message.chat.id)
+        clicked = query.from_user.id
+        ident, key = query.data.split("#")
+        settings = await get_settings(query.message.chat.id)
 
     # Validate bot username
     if not temp.U_NAME:
