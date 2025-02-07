@@ -1110,24 +1110,35 @@ async def cb_handler(client: Client, query: CallbackQuery):
             await query.answer(url=f"https://telegram.me/{temp.U_NAME}?start={ident}_{file_id}")
             
     elif query.data.startswith("sendfiles"):
-        clicked = query.from_user.id
-        ident, key = query.data.split("#")
-        settings = await get_settings(query.message.chat.id)
-        try:
-            if settings['is_shortlink'] and clicked not in PREMIUM_USER:
-                await query.answer(url=f"https://telegram.me/{temp.U_NAME}?start=sendfiles1_{key}")
-                return
-            else:
-                await query.answer(url=f"https://telegram.me/{temp.U_NAME}?start=allfiles_{key}")
-                return
-        except UserIsBlocked:
-            await query.answer('Uɴʙʟᴏᴄᴋ ᴛʜᴇ ʙᴏᴛ ᴍᴀʜɴ !', show_alert=True)
-        except PeerIdInvalid:
-            await query.answer(url=f"https://telegram.me/{temp.U_NAME}?start=sendfiles3_{key}")
-        except Exception as e:
-            logger.exception(e)
-            await query.answer(url=f"https://telegram.me/{temp.U_NAME}?start=sendfiles4_{key}")
-    
+    clicked = query.from_user.id
+    ident, key = query.data.split("#")
+    settings = await get_settings(query.message.chat.id)
+
+    # Validate bot username
+    if not temp.U_NAME:
+        logger.error("temp.U_NAME is not set!")
+        await query.answer("Error: Bot username is missing!", show_alert=True)
+        return
+
+    try:
+        base_url = f"https://telegram.me/{temp.U_NAME}?start="
+        if settings.get('is_shortlink') and clicked not in PREMIUM_USER:
+            url = f"{base_url}sendfiles1_{key}"
+        else:
+            url = f"{base_url}allfiles_{key}"
+
+        if " " in url:  # Check if URL is valid
+            await query.answer("Invalid URL format!", show_alert=True)
+        else:
+            await query.answer(url=url)
+    except UserIsBlocked:
+        await query.answer('Uɴʙʟᴏᴄᴋ ᴛʜᴇ ʙᴏᴛ ᴍᴀʜɴ !', show_alert=True)
+    except PeerIdInvalid:
+        await query.answer(url=f"https://telegram.me/{temp.U_NAME}?start=sendfiles3_{key}")
+    except Exception as e:
+        logger.exception(e)
+        await query.answer(url=f"https://telegram.me/{temp.U_NAME}?start=sendfiles4_{key}")
+
     elif query.data.startswith("del"):
         ident, file_id = query.data.split("#")
         files_ = await get_file_details(file_id)
