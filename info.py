@@ -13,9 +13,9 @@ def is_enabled(value, default):
 
 # Bot information
 SESSION = environ.get('SESSION', 'Media_search')
-API_ID = int(environ.get('API_ID', '22645'))
-API_HASH = environ.get('API_HASH', '94a089020a2290fd29a41f18')
-BOT_TOKEN = environ.get('BOT_TOKEN', "0310745:AAEcOugP9x6GN8noxi4rZ7M8UF00sk")
+API_ID = int(environ.get('API_ID', ''))
+API_HASH = environ.get('API_HASH', '')
+BOT_TOKEN = environ.get('BOT_TOKEN', "")
 
 # Bot settings
 CACHE_TIME = int(environ.get('CACHE_TIME', 300))
@@ -42,9 +42,9 @@ reqst_channel = environ.get('REQST_CHANNEL_ID', '') # request channel id ( make 
 
 
 # MongoDB information
-DATABASE_URI = environ.get('DATABASE_URI', "mongodb")
-DATABASE_URI2 = environ.get('DATABASE_URI2', "mongodb")
-DATABASE_NAME = environ.get('DATABASE_NAME', "yato")
+DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://spideyofficial777:6FwYFNcgrAPL8nqq@spidey777.pykfj.mongodb.net/?retryWrites=true&w=majority&appName=SPIDEY777")
+DATABASE_URI2 = environ.get('DATABASE_URI2', "mongodb+srv://spideyofficial777:6FwYFNcgrAPL8nqq@spidey777.pykfj.mongodb.net/?retryWrites=true&w=majority&appName=SPIDEY777")
+DATABASE_NAME = environ.get('DATABASE_NAME', "SPIDEY777")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
 
 # index movie Notification & update channel 
