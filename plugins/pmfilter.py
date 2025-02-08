@@ -1114,7 +1114,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         ident, key = query.data.split("#")
         settings = await get_settings(query.message.chat.id)
         try:
-            if not await db.has_premium_access(clicked) and settings['is_shortlink']: # Don't Change anything without my permission @CoderluffyTG
+            if settings['is_shortlink'] and clicked not in PREMIUM_USER:
                 await query.answer(url=f"https://telegram.me/{temp.U_NAME}?start=sendfiles1_{key}")
                 return
             else:
@@ -1143,7 +1143,6 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 f_caption = CUSTOM_FILE_CAPTION.format(file_name='' if title is None else title,
                                                        file_size='' if size is None else size,
                                                        file_caption='' if f_caption is None else f_caption)
-
             except Exception as e:
                 logger.exception(e)
             f_caption = f_caption
