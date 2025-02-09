@@ -101,7 +101,7 @@ async def send_msg(bot, filename, caption):
                 language += f"{lang}, "
 
         if not language:
-            language = "Not idea 😄"
+            language = "N/A"
         else:
             language = language[:-2]
 
@@ -131,7 +131,7 @@ async def send_msg(bot, filename, caption):
                   resized_poster = await resized_poster_task
             
           filenames = filename.replace(" ", '-')
-          btn = [[InlineKeyboardButton('🌲 Get Files 🌲', url=f"https://telegram.me/{temp.U_NAME}?start=getfile-{filenames}")]]
+          btn = [[InlineKeyboardButton('🌲 ɢᴇᴛ ғɪʟᴇs 🌲', url=f"https://telegram.me/{temp.U_NAME}?start=getfile-{filenames}")]]
           if resized_poster:
               await bot.send_photo(chat_id=MOVIE_UPDATE_CHANNEL, photo=resized_poster, caption=text, reply_markup=InlineKeyboardMarkup(btn))
           else:              
