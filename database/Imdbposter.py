@@ -5,17 +5,23 @@ from io import BytesIO
 from PIL import Image
 from info import IMAGE_FETCH
 from imdb import Cinemagoer
+from pyrogram import Client
+import os
 
-
+# Initialize IMDb
 ia = Cinemagoer()
-LONG_IMDB_DESCRIPTION = False
+
+# Load Telegram Bot Config from info.py
+from info import BOT_TOKEN, CHANNEL_ID
+
+app = Client("imdb_bot", bot_token=BOT_TOKEN)
 
 def list_to_str(lst):
-    if lst:
-        return ", ".join(map(str, lst))
-    return ""
+    """Converts a list to a comma-separated string."""
+    return ", ".join(map(str, lst)) if lst else "N/A"
 
-async def fetch_image(url, size=(720, 720)):
+async def fetch_high_quality_image(url):
+    """Fetches the highest quality IMDb poster without compression."""
     if not IMAGE_FETCH:
         print("Image fetching is disabled.")
         return None
@@ -24,87 +30,56 @@ async def fetch_image(url, size=(720, 720)):
         async with aiohttp.ClientSession() as session:
             async with session.get(url) as response:
                 if response.status == 200:
-                    content = await response.read()
-                    img = Image.open(BytesIO(content))
-                    img = img.resize(size, Image.LANCZOS)
-                    img_byte_arr = BytesIO()
-                    img.save(img_byte_arr, format='JPEG')
-                    img_byte_arr.seek(0)
-                    return img_byte_arr
+                    return BytesIO(await response.read())  # Keep original quality
                 else:
                     print(f"Failed to fetch image: {response.status}")
     except aiohttp.ClientError as e:
-        print(f"HTTP request error in fetch_image: {e}")
-    except IOError as e:
-        print(f"IO error in fetch_image: {e}")
-    except Exception as e:
-        print(f"Unexpected error in fetch_image: {e}")
+        print(f"HTTP request error: {e}")
     return None
 
 async def get_movie_details(query, id=False, file=None):
+    """Fetches movie details, including a high-quality poster."""
     try:
         if not id:
             query = query.strip().lower()
             title = query
-            year = re.findall(r'[1-2]\d{3}$', query, re.IGNORECASE)
-            if year:
-                year = list_to_str(year[:1])
-                title = query.replace(year, "").strip()
-            elif file is not None:
-                year = re.findall(r'[1-2]\d{3}', file, re.IGNORECASE)
-                if year:
-                    year = list_to_str(year[:1])
-            else:
-                year = None
+            year_match = re.findall(r'[1-2]\d{3}$', query, re.IGNORECASE)
+            year = list_to_str(year_match[:1]) if year_match else None
 
-            movieid = ia.search_movie(title.lower(), results=10)
-            if not movieid:
+            if not year and file:
+                file_year_match = re.findall(r'[1-2]\d{3}', file, re.IGNORECASE)
+                year = list_to_str(file_year_match[:1]) if file_year_match else None
+
+            movie_search = ia.search_movie(title.lower(), results=10)
+            if not movie_search:
                 return None
 
-            if year:
-                filtered = list(filter(lambda k: str(k.get('year')) == str(year), movieid))
-                if not filtered:
-                    filtered = movieid
-            else:
-                filtered = movieid
+            filtered_movies = (
+                [m for m in movie_search if str(m.get('year')) == year]
+                if year else movie_search
+            )
 
-            movieid = list(filter(lambda k: k.get('kind') in ['movie', 'tv series'], filtered))
-            if not movieid:
-                movieid = filtered
+            filtered_movies = [
+                m for m in filtered_movies if m.get('kind') in ['movie', 'tv series']
+            ] or filtered_movies
 
-            movieid = movieid[0].movieID
+            movieid = filtered_movies[0].movieID
         else:
             movieid = query
 
         movie = ia.get_movie(movieid)
-        if movie.get("original air date"):
-            date = movie["original air date"]
-        elif movie.get("year"):
-            date = movie.get("year")
-        else:
-            date = "N/A"
-
-        plot = movie.get('plot')
-        if plot and len(plot) > 0:
-            plot = plot[0]
-        else:
-            plot = movie.get('plot outline')
-
-        if plot and len(plot) > 800:
-            plot = plot[:800] + "..."
-
         poster_url = movie.get('full-size cover url')
 
-        return {
+        details = {
             'title': movie.get('title'),
             'votes': movie.get('votes'),
             "aka": list_to_str(movie.get("akas")),
             "seasons": movie.get("number of seasons"),
-            "box_office": movie.get('box office'),
+            "box_office": movie.get('box office', {}).get('Cumulative Worldwide Gross', 'N/A'),
             'localized_title': movie.get('localized title'),
             'kind': movie.get("kind"),
             "imdb_id": f"tt{movie.get('imdbID')}",
-            "cast": list_to_str(movie.get("cast")),
+            "cast": list_to_str(movie.get("cast")[:5]),  # Top 5 actors
             "runtime": list_to_str(movie.get("runtimes")),
             "countries": list_to_str(movie.get("countries")),
             "certificates": list_to_str(movie.get("certificates")),
@@ -116,15 +91,52 @@ async def get_movie_details(query, id=False, file=None):
             "cinematographer": list_to_str(movie.get("cinematographer")),
             "music_team": list_to_str(movie.get("music department")),
             "distributors": list_to_str(movie.get("distributors")),
-            'release_date': date,
+            'release_date': movie.get('original air date', movie.get('year', 'N/A')),
             'year': movie.get('year'),
             'genres': list_to_str(movie.get("genres")),
             'poster_url': poster_url,
-            'plot': plot,
+            'plot': (movie.get('plot', ["N/A"])[0])[:1000] + "...",
             'rating': str(movie.get("rating")),
             'url': f'https://www.imdb.com/title/tt{movieid}'
         }
 
+        return details
     except Exception as e:
         print(f"An error occurred in get_movie_details: {e}")
         return None
+
+def generate_caption(details):
+    """Generates a stylish caption for Telegram messages."""
+    return (
+        f"🎬 **{details['title']} ({details['year']})**\n"
+        f"⭐ **Rating:** {details['rating']}/10\n"
+        f"🎭 **Genres:** {details['genres']}\n"
+        f"🎬 **Director:** {details['director']}\n"
+        f"✍ **Writer:** {details['writer']}\n"
+        f"👥 **Cast:** {details['cast']}\n"
+        f"💰 **Box Office:** {details['box_office']}\n"
+        f"📖 **Plot:** {details['plot']}\n\n"
+        f"🔗 [IMDb Link]({details['url']})"
+    )
+
+async def send_to_telegram(details):
+    """Sends movie details and highest-quality poster to Telegram channel."""
+    async with app:
+        caption = generate_caption(details)  # Generate stylish caption
+
+        if details['poster_url']:
+            image = await fetch_high_quality_image(details['poster_url'])
+            if image:
+                await app.send_photo(CHANNEL_ID, photo=image, caption=caption, parse_mode="markdown")
+            else:
+                await app.send_message(CHANNEL_ID, text=caption, parse_mode="markdown")  # Fallback to text only
+        else:
+            await app.send_message(CHANNEL_ID, text=caption, parse_mode="markdown")  # No poster found
+
+async def main():
+    query = "Inception 2010"  # Example movie
+    details = await get_movie_details(query)
+    if details:
+        await send_to_telegram(details)
+    else:
+        print("Movie not found.")
