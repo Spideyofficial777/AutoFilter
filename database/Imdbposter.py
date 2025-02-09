@@ -3,7 +3,7 @@ import aiohttp
 import asyncio
 from io import BytesIO
 from PIL import Image
-from info import IMAGE_FETCH
+from .Imdbposter import get_movie_details, fetch_high_quality_image as fetch_image
 from imdb import Cinemagoer
 from pyrogram import Client
 import os
