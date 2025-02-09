@@ -10,7 +10,7 @@ from marshmallow.exceptions import ValidationError
 from info import *
 from utils import get_settings, save_group_settings, temp
 from database.users_chats_db import add_name
-from .Imdbposter import get_movie_details, fetch_image
+from .Imdbposter import get_movie_details, fetch_high_quality_image as fetch_image
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
