@@ -39,6 +39,7 @@ auth_channel = environ.get('AUTH_CHANNEL', '-1001959922658 -1002453024937') #Cha
 DELETE_CHANNELS = [int(dch) if id_pattern.search(dch) else dch for dch in environ.get('DELETE_CHANNELS', '').split()]
 support_chat_id = environ.get('SUPPORT_CHAT_ID', '-1002453024937') # support group id ( make sure bot is admin )
 reqst_channel = environ.get('REQST_CHANNEL_ID', '-1002453024937') # request channel id ( make sure bot is admin ).
+CHANNEL_ID = int(environ.get('CHANNEL_ID', '-1002453024937'))  # Replace with your actual channel ID
 
 
 # MongoDB information
