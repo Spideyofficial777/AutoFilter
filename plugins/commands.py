@@ -478,7 +478,7 @@ async def start(client, message):
             if await db.has_premium_access(message.from_user.id): 
                 pass 
             else:
-               if not await check_verification(client, message.from_user.id) and VERIFY == True:
+               if not await get_verify_status(message.from_user.id) and VERIFY == True:
                    btn = [[
                        InlineKeyboardButton("✅ Cʟɪᴄᴋ ʜᴇʀᴇ ᴛᴏ ᴠᴇʀɪғʏ ✅", url=await get_token(client, message.from_user.id, f"https://telegram.me/{temp.U_NAME}?start=", file_id))
                        ],[
@@ -562,7 +562,7 @@ async def start(client, message):
             if await db.has_premium_access(message.from_user.id): 
                 pass 
             else:
-               if not await check_verification(client, message.from_user.id) and VERIFY == True:
+               if not await get_verify_status(message.from_user.id) and VERIFY == True:
                    btn = [[
                        InlineKeyboardButton("✅ Cʟɪᴄᴋ ʜᴇʀᴇ ᴛᴏ ᴠᴇʀɪғʏ ✅", url=await get_token(client, message.from_user.id, f"https://telegram.me/{temp.U_NAME}?start=", file_id))
                    ],[
