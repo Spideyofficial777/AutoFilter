@@ -123,11 +123,14 @@ async def Lucy_start():
 
     # Keep Bot Running
     await idle()
-
-if __name__ == "__main__":
-    loop = asyncio.new_event_loop()  # Fix event loop issue
-    asyncio.set_event_loop(loop)
+    
+    if __name__ == "__main__":
+        loop = asyncio.new_event_loop()  # Ensure a new event loop is created
+        asyncio.set_event_loop(loop)
+    
     try:
         loop.run_until_complete(Lucy_start())
     except KeyboardInterrupt:
         logging.info("Service Stopped. Bye 👋")
+    finally:
+        loop.close()  # Ensure the loop is properly closed
