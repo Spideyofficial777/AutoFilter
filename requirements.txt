@@ -70,4 +70,3 @@ gtts
 
 # Git-based Packages
 git+https://github.com/Joelkb/cinemagoer
-git+https://github.com/KurimuzonAkuma/pyrogram.git
