@@ -18,9 +18,9 @@ from info import *
 from utils import temp
 from Script import script
 from plugins import web_server, check_expired_premium
-from LucyBot.Bot import Codeflix
-from LucyBot.util.keepalive import ping_server
-from LucyBot.Bot.clients import initialize_clients
+from SpideyBot.Bot import Codeflix
+from SpideyBot.util.keepalive import ping_server
+from SpideyBot.Bot.clients import initialize_clients
 
 logging.config.fileConfig('logging.conf')
 logging.getLogger().setLevel(logging.INFO)
