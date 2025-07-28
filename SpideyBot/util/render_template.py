@@ -1,9 +1,9 @@
 import jinja2
 from info import *
-from LucyBot.Bot import Codeflix
-from LucyBot.util.human_readable import humanbytes
-from LucyBot.util.file_properties import get_file_ids
-from LucyBot.server.exceptions import InvalidHash
+from SpideyBot.Bot import Codeflix
+from SpideyBot.util.human_readable import humanbytes
+from SpideyBot.util.file_properties import get_file_ids
+from SpideyBot.server.exceptions import InvalidHash
 import urllib.parse
 import logging
 import aiohttp
@@ -25,9 +25,9 @@ async def render_page(id, secure_hash, src=None):
     tag = file_data.mime_type.split("/")[0].strip()
     file_size = humanbytes(file_data.file_size)
     if tag in ["video", "audio"]:
-        template_file = "LucyBot/template/req.html"
+        template_file = "SpideyBot/template/req.html"
     else:
-        template_file = "LucyBot/template/dl.html"
+        template_file = "SpideyBot/template/dl.html"
         async with aiohttp.ClientSession() as s:
             async with s.get(src) as u:
                 file_size = humanbytes(int(u.headers.get("Content-Length")))
