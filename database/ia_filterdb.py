@@ -69,7 +69,7 @@ async def choose_mediaDB():
         logger.info("Using second db (Media2)")
         saveMedia = Media2
 
-async def save_file(bot, media):
+async def save_file(media):
   """Save file in database"""
   global saveMedia
   file_id, file_ref = unpack_new_file_id(media.file_id)
