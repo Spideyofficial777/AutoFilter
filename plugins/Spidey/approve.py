@@ -26,7 +26,7 @@ async def autoapprove(client, message: ChatJoinRequest):
     if APPROVED == "on":
         invite_link = await client.export_chat_invite_link(chat.id)
         buttons = [
-            [InlineKeyboardButton('• ᴊᴏɪɴ ᴍʏ ᴜᴘᴅᴀᴛᴇs •', url='https://t.me/codeflix_bots')],
+            [InlineKeyboardButton('• ᴊᴏɪɴ ᴍʏ ᴜᴘᴅᴀᴛᴇs •', url='https://t.me/spideyofficial_777')],
             [InlineKeyboardButton(f'• ᴊᴏɪɴ {chat.title} •', url=invite_link)]
         ]
         markup = InlineKeyboardMarkup(buttons)
@@ -60,3 +60,4 @@ async def toggle_reqmode(client, message: Message):
     AUTO_APPROVE_ENABLED = (mode == "on")
     status = "enabled ✅" if AUTO_APPROVE_ENABLED else "disabled ❌"
     await message.reply_text(f"Auto-approval has been {status}.")
+
