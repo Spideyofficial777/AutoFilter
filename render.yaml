@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: AutoFilter
+    env: docker
+    plan: free
+
+    dockerfilePath: ./Dockerfile
+
+    autoDeploy: true
+
+    healthCheckPath: /
+
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"
