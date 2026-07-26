@@ -18,8 +18,8 @@ def is_enabled(value, default):
 # Bot Information Configuration
 # ============================
 SESSION = environ.get('SESSION', 'Media_search')
-API_ID = int(environ.get('API_ID', '28519661'))
-API_HASH = environ.get('API_HASH', 'd47c74c8a596fd3048955b322304109d')
+API_ID = int(environ.get('API_ID', ''))
+API_HASH = environ.get('API_HASH', '')
 BOT_TOKEN = environ.get('BOT_TOKEN', "")
 
 # ============================
@@ -68,8 +68,8 @@ APPROVED = environ.get("APPROVED_WELCOME", "on").lower()
 # ============================
 # MongoDB Configuration
 # ============================
-DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://Spidey:spaL73XFLxZ4YiCr@cluster0.wqc5t.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-DATABASE_URI2 = environ.get('DATABASE_URI2', "mongodb+srv://vebop71691:GtrOdO2tT8v6Yh9q@cluster0.bep2m.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+DATABASE_URI = environ.get('DATABASE_URI', "")
+DATABASE_URI2 = environ.get('DATABASE_URI2', "+")
 DATABASE_NAME = environ.get('DATABASE_NAME', "Spidey")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
 
