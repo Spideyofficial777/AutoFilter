@@ -46,7 +46,7 @@ MOVIE_UPDATE_CHANNEL = int(environ.get('MOVIE_UPDATE_CHANNEL', '-1002453024937')
 PREMIUM_LOGS = int(environ.get('PREMIUM_LOGS', '-1002423451263'))  # Premium logs channel id
 auth_channel = environ.get('AUTH_CHANNEL', '-1002470391435')  # Channel/Group ID for force sub (make sure bot is admin)
 DELETE_CHANNELS = [int(dch) if id_pattern.search(dch) else dch for dch in environ.get('DELETE_CHANNELS', '').split()]
-support_chat_id = environ.get('SUPPORT_CHAT_ID', '')  # Support group id (make sure bot is admin)
+support_chat_id = environ.get('SUPPORT_CHAT_ID', '-1002453024937')  # Support group id (make sure bot is admin)
 SUPPORT_GROUP = int(environ.get('SUPPORT_GROUP', '-1002294764885'))
 reqst_channel = environ.get('REQST_CHANNEL_ID', '-1002294764885')  # Request channel id (make sure bot is admin)
 AUTH_CHANNEL = [int(fch) if id_pattern.search(fch) else fch for fch in environ.get('AUTH_CHANNEL', '-1001959922658 -1002453024937').split()]
@@ -69,7 +69,7 @@ APPROVED = environ.get("APPROVED_WELCOME", "on").lower()
 # MongoDB Configuration
 # ============================
 DATABASE_URI = environ.get('DATABASE_URI', "")
-DATABASE_URI2 = environ.get('DATABASE_URI2', "+")
+DATABASE_URI2 = environ.get('DATABASE_URI2', "")
 DATABASE_NAME = environ.get('DATABASE_NAME', "Spidey")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
 
