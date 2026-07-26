@@ -88,12 +88,12 @@ async def link_handler(Mbot, message):
                   else:
                       return await message.reply("Oops something went wrong")
                   try:
-                     dump_file=await message.reply_video(meta[0], caption="𝐷𝑜𝑤𝑛𝑙𝑜𝑎𝑑 𝐵𝑦 👉 @cosmic_freak")
+                     dump_file=await message.reply_video(meta[0], caption="<a https://t.me/SPIDEYOFFICIAL_777'>ꜱᴘɪᴅᴇʏ ᴏғғɪᴄɪᴀʟ</a>")
                   except:
                       com=await message.reply(meta[0])
                       await asyncio.sleep(1)
                       try:
-                          dump_file=await message.reply_video(com.text,caption="𝐷𝑜𝑤𝑛𝑙𝑜𝑎𝑑 𝐵𝑦 👉 @cosmic_freak")
+                          dump_file=await message.reply_video(com.text,caption=" <a https://t.me/SPIDEYOFFICIAL_777'>ꜱᴘɪᴅᴇʏ ᴏғғɪᴄɪᴀʟ</a>")
                           await com.delete()
                       except:
                           pass
@@ -116,4 +116,4 @@ async def link_handler(Mbot, message):
             await m.delete()
             if 'downfile' in locals():
                 os.remove(downfile)
-            await message.reply("<a href='https://t.me/nova_flix'>Lucy</a>")
+            await message.reply("<a https://t.me/SPIDEYOFFICIAL_777'>ꜱᴘɪᴅᴇʏ ᴏғғɪᴄɪᴀʟ</a>")
